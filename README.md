@@ -340,3 +340,77 @@ filters:  {
 <span  class="text-primary"><strong>{{  item.price  |  currency  }}</strong></span>
 ```
 
+# 5. Le store en pronfondeur
+
+Vous allez tout dabord devoir créer des mutations pour jouer sur le state de votre store. Il vous en faut une pour créer le panier et une qui push une bière dans le panier
+```js
+mutations: {
+  CREATE_BASKET (state, basket) {
+    state.basket = basket
+  },
+  ADD_TO_BASKET (state, el) {
+    state.basket.push(el)
+  }
+}
+```
+Maintenant que vous pouvez intéragir avec votre store, vous devez créer une méthode qui ajoutera une bière au panier (celui du store ET celui du serveur).
+Pour cela allez dans votre Menu.vue et ajoutez une méthode addBeerToBasket. 
+```js
+addBeerToBasket (beer) {
+  this.$http.post(this.api + '/basket', beer).then(response => {
+    if (response.status === 201) {
+      this.$store.commit('ADD_TO_BASKET', beer)
+      this.getProducts()
+    }
+  })
+}
+```
+>Si jamais vous voulez vider le panier du serveur, relancez-le tout simplement. (Les données sont stocker dans un tableau qui se crée lors du lancement du serveur)
+
+### L'affichage
+
+Rendez-vous dans Navigation.vue et vous allez devoir affecter les valeurs de votre panier. 
+Si votre panier contient rien, il affiche `Accéder à votre panier (vide)`
+Si non il vous affiche `Accéder à votre panier (xx articles - xx.xx €)`
+```js
+computed: {
+  basketTotal () {
+    let total = 0
+    this.$store.state.basket.map((beer) => {
+      total += parseFloat(beer.price)
+    })
+    return total
+  }
+}
+```
+```html
+<router-link v-if="$store.state.basket.length > 0" to="/basket" class="nav-link">Accéder à votre panier ({{ $store.state.basket.length }} articles - {{ basketTotal.toFixed(2) }} €)</router-link>
+<router-link v-else to="/basket" class="nav-link">Accéder à votre panier (vide)</router-link>
+```
+
+Maintenant rendez-vous dans Basket.vue et vous allez presque faire la même chose.
+Ici vous devez afficher toutes les bières présentent dans le store et leurs prix dans la bulle bleue
+
+```html
+<li v-for="item in $store.state.basket" class="list-group-item d-flex justify-content-between align-items-center">
+  {{ item.label }}
+  <span class="badge badge-primary badge-pill">{{ item.price.toFixed(2) }} €</span>
+</li>
+```
+
+Peut-être que vous avez déjà observer cela, mais si vous actualisez votre page celle-ci redéfinis le store panier à rien malgré que le panier du serveur soit rempli.
+Pour remedier à ça il faut qu'au lancement de la page une méthode se lance et défini le store au panier du serveur.
+>Exceptionnelement, vous devez faire ceci dans votre App.vue. Comme ça quoi qu'il arrive votre panier est chargé
+
+```js
+methods: {
+  getBasket () {
+    this.$http.get('http://localhost:1337/api/v1' + '/basket').then(r => {
+      this.$store.commit('CREATE_BASKET', r.data)
+    })
+  }
+},
+created () {
+  this.getBasket()
+}
+```

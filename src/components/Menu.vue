@@ -16,7 +16,7 @@
             <p class="card-text">{{ item.description }}</p>
             <div class="d-flex justify-content-between">
               <span class="text-primary"><strong>{{ item.price | currency }}</strong></span>
-              <a href="#" class="btn btn-primary">Ajouter</a>
+              <a href="#" class="btn btn-primary" @click.prevent="addBeerToBasket(item)">Ajouter</a>
               <span>{{ item.stock }} en stock</span>
             </div>
           </div>
@@ -40,6 +40,19 @@ export default {
       this.$http.get(this.api + '/beers').then(r => {
         this.products = r.data
       })
+    },
+    getBasket () {
+      this.$http.get(this.api + '/basket').then(r => {
+        this.$store.commit('CREATE_BASKET', r.data)
+      })
+    },
+    addBeerToBasket (beer) {
+      this.$http.post(this.api + '/basket', beer).then(response => {
+        if (response.status === 201) {
+          this.$store.commit('ADD_TO_BASKET', beer)
+          this.getProducts()
+        }
+      })
     }
   },
   computed: {
@@ -62,6 +75,7 @@ export default {
   },
   created () {
     this.getProducts()
+    this.getBasket()
   }
 }
 </script>
