@@ -4,30 +4,29 @@ Blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla blabla bla
 
 ## 1. Initialisation
 Ouvrez le terminal et rendez-vous dans votre dossier contenant vos projets.
-Lancez les commandes suivantes:
+Lancez la commande suivante:
 
     vue init webpack NOM_DU_DOSSIER
->  Permet d'initialiser vuejs avec le template webpack dans
-> NOM_DU_DOSSIER
+>  Permet d'initialiser vuejs avec le template webpack dans NOM_DU_DOSSIER
 
 Il vous sera demandé de remplir vos informations et de choisir si vous souhaitez installer certains modules.
 
-Commencez par remplir vos informations, ensuite accepter d'installer vue-router, refuser eslint, les 2 modules de testing et terminer en précisant que vous utilisez npm.
+Commencez par remplir vos informations, ensuite accepter d'installer vue-router, refuser eslint et les 2 modules de testing. Terminez en précisant que vous utiliser npm.
 
 > touche enter pour valider par defaut ou pour accepter, n pour refuser
 
-Une fois que NPM à terminé, faites les commandes afficher sur le terminal
+Une fois que NPM a terminé, faites les commandes afficher sur le terminal
 
     cd NOM_DU_DOSSIER
     npm run dev
     #ctrl + c pour couper le server meme sur 
-    # terminer par .. pour ouvrir votre code dans le dossier courant 
+    # terminer par la ligne suivante pour ouvrir votre code dans le dossier courant 
     code ./
 
 > npm run dev, permet de lancer un script qui lancera un server
 > la liste des scripts exécutables se trouvent dans votre fichier package.json à la ligne script
 
-Pour ce projet il va nous falloir quelques packages  supplémentaires: 
+Pour ce projet il va nous falloir quelques packages supplémentaires: 
 
  - Axios - https://github.com/axios/axios
  - vuex - https://vuex.vuejs.org/
@@ -39,14 +38,14 @@ l
 
     npm i axios vuex bootstrap sass-loader node-sass --save
 
-> le flag --save permet d'enregistrer les packages téléchargés au niveau des dépendances
+> le flag --save permet d'enregistrer les packages téléchargés au niveau des dépendances.
 
 L'avant dernière étape de l'initialisation est d'intégrer les fichiers qui se trouvent dans ce zip à la racine de votre projet.
 [Lien du zip](www.google.be)
 
-Il contient des images, du code html, un server nodejs.
+Il contient des images, des templates html et un serveru nodejs.
 
-Pour terminer allez dans le dossier server et installez les packages
+Pour terminer allez dans le dossier server/ et installez les packages
 
 	cd server
 	npm i
@@ -63,7 +62,7 @@ Rendez-vous dans votre src/main.js et importer votre main.scss en dessous des au
 import  './assets/scss/main.scss'
 ```
 
-Encore un peu de patience, on nettoie d'abord les fichiers avant de créer ses composant. Pour cela allez dans le fichier src/App.vue. Virez la partie css et la balise img qui se trouve dans le \<template>. 
+Encore un peu de patience, on nettoie d'abord les fichiers avant de créer ses composants. Pour cela allez dans le fichier src/App.vue. Virez la partie css et la balise img qui se trouve dans le \<template>. 
 Ensuite supprimez le fichier src/components/HelloWorld.vue.
 Et enfin, rendez-vous dans le fichier src/router/index.js, supprimer l'import concernant le HelloWorld.vue et la route concernée (en gros retirez tout ce qu'il y entre `{ path:  '/', name:  'HelloWorld', component: HelloWorld }`.
 
@@ -90,7 +89,7 @@ Et dans le tableau routes insérez un objet comme celui-ci
 > name est pour appeler plus facilement la route dans nos liens route (on y reviendra)
 > component est le composant qui sera appelé quand on sera à la racine / du site
 
-On terminera par remplir le template  du Menu.vue avec le static/template.html
+On terminera par remplir le template du Menu.vue avec le static/template.html
 Placez dans le template de Menu.vue ce qui se trouve entre \<!-- MENU --> et \<!-- END MENU -->
 
 > Si il y a une erreur, enlever les src des images, ou remplacez le chemin par ../../static/images/****.jpg
@@ -105,7 +104,7 @@ Une fois fait, vous allez importer ce composant dans votre src/App.vue et le met
 
 ### Basket.vue
 
-Créez le composant Basket.vue comme les autres, et insérez-y le contenu de static/basket.html
+Créez le composant Basket.vue comme les autres, et insérez-y le contenu container de static/basket.html
 
 Une fois fait, vous devez créer une route pour pouvoir charger ce composant.
 Rendez-vous dans index.js gérant les routes. Ajoutez-y la route /basket qui chargera le composant Basket.vue
@@ -122,7 +121,7 @@ Remplacer les balises a par router-link, le href="" se tranforme en to=""
    
 # 3. Le serveur
 
-Le server est déjà créer, il suffit juste de le lancer.
+Le serveur est déjà créer, il suffit juste de le lancer.
 
     cd server
     npm run start
@@ -148,7 +147,7 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 ``` 
-A présent nous allons créer le store à proprement parler.
+A présent nous allons créer le store à proprement parlé.
 Pour cela créez un fichier BasketStore.js dans votre dossier components. Et le code qui suit est le code basique pour un store.
 ```js
 import Vuex from 'vuex'
@@ -175,9 +174,9 @@ new  Vue({
 })
 ``` 
 
-> Stocker ce store ici vous permet d'accéder à la variable $store, on y reviendra
+> Stocker ce store ici vous permet d'accéder à la variable $store globalement, on y reviendra
 
-A ce niveau-ci vous devriez avoir une erreur dans la console de votre application. Cette erreur dit:
+A ce niveau ci vous devriez avoir une erreur dans la console de votre application. Cette erreur dit:
 
     Uncaught Error: [vuex] must call Vue.use(Vuex) before creating a store instance.
         at assert (vuex.esm.js?358c:97)
@@ -191,7 +190,7 @@ A ce niveau-ci vous devriez avoir une erreur dans la console de votre applicatio
         at __webpack_require__ (app.js:679)
         at fn (app.js:89)
 
-Cette erreur signifie que vous créez un store avant que vue js utilise vuex. Cette erreur est due à webpack qui re-formate le code derrière vous. Il existe ce pendant un petit package qui règle ce soucis. Eteignez votre server vuejs, et lancez cette commande:
+Cette erreur signifie que vous créez un store avant que vue js utilise vuex. Cette erreur est due à webpack qui reformate le code derrière vous. Il existe ce pendant un petit package qui règle ce soucis. Eteignez votre serveur vuejs, et lancez cette commande:
 
     npm i vue-use-vuex --save
     
@@ -219,7 +218,7 @@ Vous voilà avec vos 2 plugins correctement implémentés et configurés.
 
 ### Stocker les données
 
-Dans votre Menu.vue vous voudriez bien stocker les bières qui se trouvent sur votre server dans un fichier json. Comme cité plus haut, le serveur est déjà fait et configurer. Rejoignez cette url pour voir ce que vous obtenez:  http://localhost:1337/api/v1/beers
+Dans votre Menu.vue vous voudriez bien stocker les bières qui se trouvent sur votre serveur dans un fichier json. Comme cité plus haut, le serveur est déjà fait et configuré. Rejoignez cette url pour voir ce que vous obtenez:  http://localhost:1337/api/v1/beers
 
 Vous devriez voir un tableau, qui contient plusieurs bières, leurs noms, leurs descriptions, ...
 
@@ -248,7 +247,7 @@ export  default  {
 
 > Vous créez la data products et une méthode pour récupérer la data ensuite vous lancez cette méthode au moment de la création du composant
 
-Maintenant que vous avez une data vous pouvez déjà dynamiser votre partie template. Bouclez sur le tableau produit, afficher pour chacun 
+Maintenant que vous avez une data vous pouvez déjà dynamiser votre partie template. Bouclez sur le tableau produit et afficher pour chacun:
  - son nom
  - sa description
  - nombre d'étoiles
@@ -256,7 +255,7 @@ Maintenant que vous avez une data vous pouvez déjà dynamiser votre partie temp
  - son image
  - son stock
 
-Si le stock est égale a 1, le fond de la card doit être jaune
+Si le stock est égale à 1, le fond de la card doit être jaune
 Si le stock est vide, la bière ne s'affiche pas
 
 ```html
@@ -342,8 +341,11 @@ filters:  {
 
 # 5. Le store en pronfondeur
 
-Vous allez tout dabord devoir créer des mutations pour jouer sur le state de votre store. Il vous en faut une pour créer le panier et une qui push une bière dans le panier
+Vous allez tout dabord devoir créer le state basket et des mutations pour jouer sur le state de votre store. Il vous en faut une pour créer le panier et une qui push une bière dans le panier
 ```js
+state: {
+	basket: []
+},
 mutations: {
   CREATE_BASKET (state, basket) {
     state.basket = basket
@@ -389,7 +391,7 @@ computed: {
 ```
 
 Maintenant rendez-vous dans Basket.vue et vous allez presque faire la même chose.
-Ici vous devez afficher toutes les bières présentent dans le store et leurs prix dans la bulle bleue
+Ici vous devez afficher toutes les bières présentes dans le store et leurs prix dans la bulle bleue
 
 ```html
 <li v-for="item in $store.state.basket" class="list-group-item d-flex justify-content-between align-items-center">
@@ -400,7 +402,7 @@ Ici vous devez afficher toutes les bières présentent dans le store et leurs pr
 
 Peut-être que vous avez déjà observer cela, mais si vous actualisez votre page celle-ci redéfinis le store panier à rien malgré que le panier du serveur soit rempli.
 Pour remedier à ça il faut qu'au lancement de la page une méthode se lance et défini le store au panier du serveur.
->Exceptionnelement, vous devez faire ceci dans votre App.vue. Comme ça quoi qu'il arrive votre panier est chargé
+>Exceptionnelement, vous devez faire ceci dans votre App.vue. Comme ça quoi qu'il arrive votre panier sera chargé
 
 ```js
 methods: {
