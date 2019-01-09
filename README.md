@@ -260,27 +260,27 @@ Si le stock est vide, la bière ne s'affiche pas
 
 ```html
 <template>
-	<div  class="container mt-2">
-		<div  class="row">
-			<div  class="col-4"  v-for="item  in  products" v-if="item.stock">
-				<div  class="card"  :class="{'bg-warning' : item.stock  <=  1}">
-					<img  class="card-img-top"  :src="item.image"  height="100%"  alt="Card image cap">
-					<div  class="card-body">
-						<h5  class="card-title">{{  item.label }}</h5>
-						<div  class="text-primary">
-							<span  v-for="i  in  item.stars">★</span>
-						</div>
-						<p  class="card-text">{{  item.description }}</p>
-						<div  class="d-flex justify-content-between">
-							<span  class="text-primary"><strong>{{  item.price  }}</strong></span>
-							<a  href="#"  class="btn btn-primary">Ajouter</a>
-							<span>{{  item.stock  }} en stock</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div  class="container mt-2">
+    <div  class="row">
+      <div  class="col-4"  v-for="item  in  products" v-if="item.stock">
+        <div  class="card"  :class="{'bg-warning' : item.stock  <=  1}">
+          <img  class="card-img-top"  :src="item.image"  height="100%"  alt="Card image cap">
+          <div  class="card-body">
+            <h5  class="card-title">{{  item.label }}</h5>
+            <div  class="text-primary">
+              <span  v-for="i  in  item.stars">★</span>
+            </div>
+            <p  class="card-text">{{  item.description }}</p>
+            <div  class="d-flex justify-content-between">
+              <span  class="text-primary"><strong>{{  item.price  }}</strong></span>
+              <a  href="#"  class="btn btn-primary">Ajouter</a>
+              <span>{{  item.stock  }} en stock</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 ```
 
@@ -288,21 +288,21 @@ Créez maintenant un filtre qui affiche les bières par prix et un autre qui aff
 Il vous faut donc une data filtered qui est un booléen. Ensuite il vous faut une propriété computed qui retourne si la filtered est vrai un tableau contenant les bières par prix croissant et si non il retourne le tableau de base
 ```js
 data () {
-	return {
-		filtered: false,
-		//(...) //
-	}
+  return {
+    filtered: false,
+  //(...) //
+  }
 }
 // ( ... ) //
 computed:  {
-	sortedProducts  ()  {
-		if(this.filtered){
-			return  this.products.concat().sort((a,b)  =>  {
-				return  parseFloat(a.price) -  parseFloat(b.price)
-			})
-		}
-		return  this.products
-	}
+  sortedProducts  ()  {
+    if(this.filtered){
+      return  this.products.concat().sort((a,b)  =>  {
+        return  parseFloat(a.price) -  parseFloat(b.price)
+      })
+    }
+    return  this.products
+  }
 }
 ```
 
@@ -326,12 +326,12 @@ Vous allez devoir créer des filtres vuejs.
 
 ```js
 filters:  {
-	currency  (value)  {
-		return  value.toFixed(2) +  ' €'
-	},
-	capitalize  (value)  {
-		return  value.toUpperCase()
-	}
+  currency  (value)  {
+    return  value.toFixed(2) +  ' €'
+  },
+  capitalize  (value)  {
+    return  value.toUpperCase()
+  }
 }
 ```
 ```html
@@ -344,7 +344,7 @@ filters:  {
 Vous allez tout dabord devoir créer le state basket et des mutations pour jouer sur le state de votre store. Il vous en faut une pour créer le panier et une qui push une bière dans le panier
 ```js
 state: {
-	basket: []
+  basket: []
 },
 mutations: {
   CREATE_BASKET (state, basket) {
