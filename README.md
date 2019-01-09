@@ -406,7 +406,7 @@ Pour remedier à ça il faut qu'au lancement de la page une méthode se lance et
 
 ```js
 methods: {
-  getBasket () {
+	getBasket () {
     this.$http.get('http://localhost:1337/api/v1' + '/basket').then(r => {
       this.$store.commit('CREATE_BASKET', r.data)
     })
